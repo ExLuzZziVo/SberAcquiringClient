@@ -1,9 +1,12 @@
 # SberAcquiringClient
 Библиотека для работы с API интернет-эквайринга банка Сбербанк. Используется интерфейс REST.
 <br/>
+<br/>
 Создана по официальной документации со следующих источников: <a href="https://securepayments.sberbank.ru/wiki/doku.php/integration:api:start#%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D1%84%D0%B5%D0%B9%D1%81_rest" rel="nofollow">1</a>, <a href="https://developer.sberbank.ru/doc/v1/acquiring/rest-requests-about" rel="nofollow">2</a>.
 <br/>
+<br/>
 <b>Использовать только на свой страх и риск.</b> Тестировалась только одностадийная оплата и запрос статуса заказа. Остальное должно работать, но это не точно;)
+<br/>
 <br/>
 Пример использования:
 <br/>
