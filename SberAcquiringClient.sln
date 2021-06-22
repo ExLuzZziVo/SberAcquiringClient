@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SberAcquiringClient", "SberAcquiringClient\SberAcquiringClient.csproj", "{1A588EE5-EF05-491A-ACC6-F5E9E057FA9C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreLib.CORE", "..\CoreLib\CoreLib.CORE\CoreLib.CORE.csproj", "{A43BD6B4-21F2-4DB5-9BEA-DFAD3F497ADE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreLib.CORE.Extensions.Json", "..\CoreLib\CoreLib.CORE.Extensions.Json\CoreLib.CORE.Extensions.Json.csproj", "{549CE066-16A0-42BB-94A7-523090B97C48}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1A588EE5-EF05-491A-ACC6-F5E9E057FA9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A588EE5-EF05-491A-ACC6-F5E9E057FA9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A588EE5-EF05-491A-ACC6-F5E9E057FA9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A588EE5-EF05-491A-ACC6-F5E9E057FA9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A43BD6B4-21F2-4DB5-9BEA-DFAD3F497ADE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A43BD6B4-21F2-4DB5-9BEA-DFAD3F497ADE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A43BD6B4-21F2-4DB5-9BEA-DFAD3F497ADE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A43BD6B4-21F2-4DB5-9BEA-DFAD3F497ADE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{549CE066-16A0-42BB-94A7-523090B97C48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{549CE066-16A0-42BB-94A7-523090B97C48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{549CE066-16A0-42BB-94A7-523090B97C48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{549CE066-16A0-42BB-94A7-523090B97C48}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
