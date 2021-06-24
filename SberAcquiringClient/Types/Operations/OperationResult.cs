@@ -4,8 +4,16 @@ namespace SberAcquiringClient.Types.Operations
 {
     public abstract class OperationResult
     {
-        [Display(Name = "Код ошибки")] public int ErrorCode { get; set; }
+        /// <summary>
+        /// Код ошибки
+        /// </summary>
+        [Display(Name = "Код ошибки")]
+        public int ErrorCode { get; set; }
 
-        [Display(Name = "Описание ошибки")] public string ErrorMessage { get; set; }
+        /// <summary>
+        /// Описание ошибки
+        /// </summary>
+        [Display(Name = "Описание ошибки")]
+        public string ErrorMessage { get; set; }
     }
 }

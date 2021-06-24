@@ -88,6 +88,11 @@ namespace SberAcquiringClient.Types.Operations.PaymentSystems
             return result;
         }
 
+        /// <summary>
+        /// Проверяет данные запроса и сохраняет их в формате JSON
+        /// </summary>
+        /// <param name="apiSettings">Настройки подключения к api платежного шлюза</param>
+        /// <returns>Данные запроса в формате JSON</returns>
         private string ValidateAndGenerateJson(ISberAcquiringApiSettings apiSettings)
         {
             if (apiSettings == null)

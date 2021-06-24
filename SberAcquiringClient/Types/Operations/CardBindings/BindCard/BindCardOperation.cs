@@ -6,8 +6,15 @@ using CoreLib.CORE.Resources;
 
 namespace SberAcquiringClient.Types.Operations.CardBindings.BindCard
 {
+    /// <summary>
+    /// Активация связки
+    /// </summary>
     public class BindCardOperation : Operation<BindCardResult>
     {
+        /// <summary>
+        /// Активация связки
+        /// </summary>
+        /// <param name="bindingId">Идентификатор созданной ранее связки</param>
         public BindCardOperation(string bindingId) : base("/payment/rest/bindCard.do")
         {
             if (bindingId.IsNullOrEmptyOrWhiteSpace() || bindingId.Length > 255)
@@ -22,6 +29,13 @@ namespace SberAcquiringClient.Types.Operations.CardBindings.BindCard
             BindingId = bindingId;
         }
 
+        /// <summary>
+        /// Идентификатор созданной ранее связки
+        /// </summary>
+        /// <list type="bullet">
+        /// <item>Обязательное поле</item>
+        /// <item>Максимальная длина: 255</item>
+        /// </list>
         [Display(Name = "Идентификатор созданной ранее связки")]
         [Required(ErrorMessageResourceType = typeof(ValidationStrings), ErrorMessageResourceName = "RequiredError")]
         [MaxLength(255, ErrorMessageResourceType = typeof(ValidationStrings),

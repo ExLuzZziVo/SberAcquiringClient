@@ -8,41 +8,79 @@ using SberAcquiringClient.Types.Converters;
 
 namespace SberAcquiringClient.Types.Operations.Orders.OrderStatus
 {
+    /// <summary>
+    /// Результат получения статуса заказа
+    /// </summary>
     public class OrderStatusResult : OperationResult
     {
-        [Display(Name = "Состояние заказа")] public Enums.OrderStatus? OrderStatus { get; set; }
+        /// <summary>
+        /// Состояние заказа
+        /// </summary>
+        [Display(Name = "Состояние заказа")]
+        public Enums.OrderStatus? OrderStatus { get; set; }
 
-        [Display(Name = "Идентификатор заказа в системе магазина")]
+        /// <summary>
+        /// Идентификатор заказа в системе продавца
+        /// </summary>
+        [Display(Name = "Идентификатор заказа в системе продавца")]
         public string OrderNumber { get; set; }
 
+        /// <summary>
+        /// Маскированный номер карты
+        /// </summary>
         [Display(Name = "Маскированный номер карты")]
         public string Pan { get; set; }
 
-        [JsonConverter(typeof(CustomDateTimeConverter), "yyyyMM")]
+        /// <summary>
+        /// Срок истечения действия карты
+        /// </summary>
         [Display(Name = "Срок истечения действия карты")]
+        [JsonConverter(typeof(CustomDateTimeConverter), "yyyyMM")]
         public DateTime? Expiration { get; set; }
 
+        /// <summary>
+        /// Имя держателя карты
+        /// </summary>
         [Display(Name = "Имя держателя карты")]
         public string CardholderName { get; set; }
 
+        /// <summary>
+        /// Сумма платежа
+        /// </summary>
         [Display(Name = "Сумма платежа")]
         [JsonConverter(typeof(AmountConverter))]
         public decimal? Amount { get; set; }
 
+        /// <summary>
+        /// Код валюты платежа ISO 4217
+        /// </summary>
         [Display(Name = "Код валюты платежа ISO 4217")]
         public string Currency { get; set; }
 
+        /// <summary>
+        /// Код авторизации платежа
+        /// </summary>
         [Display(Name = "Код авторизации платежа")]
         public string ApprovalCode { get; set; }
 
-        [Obsolete]
+        /// <summary>
+        /// Код авторизации процессинговой системы
+        /// </summary>
         [Display(Name = "Код авторизации процессинговой системы")]
+        [Obsolete]
         public string AuthCode { get; set; }
 
+        /// <summary>
+        /// IP адрес пользователя, который оплачивал заказ
+        /// </summary>
         [Display(Name = "IP адрес пользователя, который оплачивал заказ")]
         [JsonConverter(typeof(IpAddressConverter))]
         public IPAddress Ip { get; set; }
 
-        [Display(Name = "Значения привязки")] public BindingInfo BindingInfo { get; set; }
+        /// <summary>
+        /// Значения привязки
+        /// </summary>
+        [Display(Name = "Значения привязки")]
+        public BindingInfo BindingInfo { get; set; }
     }
 }

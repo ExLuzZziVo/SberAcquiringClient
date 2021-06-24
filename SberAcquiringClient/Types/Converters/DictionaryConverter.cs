@@ -6,6 +6,9 @@ using Newtonsoft.Json.Linq;
 
 namespace SberAcquiringClient.Types.Converters
 {
+    /// <summary>
+    /// Конвертирует словарь, где ключ и значение представляют собой строки, в массив для корректной сериализации (По умолчанию элементы словаря сериализуются как: { "key" : "k", "value" : "val" }
+    /// </summary>
     public class NameValueDictionaryConverter : JsonConverter<IDictionary<string, string>>
     {
         public override void WriteJson(JsonWriter writer, IDictionary<string, string> value, JsonSerializer serializer)

@@ -2,23 +2,33 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using CoreLib.CORE.Helpers.CollectionHelpers;
-using CoreLib.CORE.Helpers.StringHelpers;
 using Newtonsoft.Json;
 
 namespace SberAcquiringClient.Types.Converters
 {
+    /// <summary>
+    /// Конвертирует последовательность в строку с заданным разделителем и/или форматом элементов последовательности
+    /// </summary>
     public class CollectionToStringWithSeparatorConverter<T> : JsonConverter<IEnumerable<T>>
     {
         private readonly char _separator;
         private readonly string _stringFormat;
-
+        
+        /// <summary>
+        /// Конвертирует последовательность в строку с заданным разделителем
+        /// </summary>
+        /// <param name="separator">Разделитель элементов последовательностей</param>
         public CollectionToStringWithSeparatorConverter(char separator)
         {
             _separator = separator;
             _stringFormat = string.Empty;
         }
 
+        /// <summary>
+        /// Конвертирует последовательность в строку с заданным разделителем и форматом элементов последовательности
+        /// </summary>
+        /// <param name="separator">Разделитель элементов последовательностей</param>
+        /// <param name="stringFormat">Формат, к которому необходимо привести элементы последовательности, вызвав метод <see cref="object.ToString()"/>. Для этого необходимо, чтобы элементы последовательности реализовали интерфейс <see cref="IFormattable"/></param>
         public CollectionToStringWithSeparatorConverter(char separator, string stringFormat)
         {
             _separator = separator;

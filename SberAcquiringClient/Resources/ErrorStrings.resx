@@ -19,7 +19,7 @@
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
     <data name="GetFiscalReceiptStatusRequiredError" xml:space="preserve">
-        <value>Любое из следующих полей должно быть заполнено: 'Идентификатор заказа в платежной системе', 'Идентификатор заказа в системе магазина', 'Идентификатор чека в фискализаторе'</value>
+        <value>Любое из следующих полей должно быть заполнено: 'Идентификатор заказа в платежной системе', 'Идентификатор заказа в системе продавца', 'Идентификатор чека в фискализаторе'</value>
     </data>
     <data name="NoApiAuthenticationDataError" xml:space="preserve">
         <value>В настройках API должен быть заполнен адрес хоста и логин/пароль или токен</value>

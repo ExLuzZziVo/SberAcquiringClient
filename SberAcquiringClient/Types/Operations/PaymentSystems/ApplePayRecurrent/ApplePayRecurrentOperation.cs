@@ -9,8 +9,17 @@ using SberAcquiringClient.Types.Converters;
 
 namespace SberAcquiringClient.Types.Operations.PaymentSystems.ApplePayRecurrent
 {
+    /// <summary>
+    /// Проведение рекуррентного платежа Apple Pay
+    /// </summary>
     public class ApplePayRecurrentOperation : PaymentSystemOperation<ApplePayRecurrentResult>
     {
+        /// <summary>
+        /// Проведение рекуррентного платежа Apple Pay
+        /// </summary>
+        /// <param name="orderNumber">Идентификатор заказа в системе продавца</param>
+        /// <param name="bindingId">Идентификатор созданной ранее связки</param>
+        /// <param name="amount">Сумма платежа</param>
         public ApplePayRecurrentOperation(string orderNumber, string bindingId, decimal amount) : base(
             "/payment/recurrentPayment.do")
         {
@@ -44,18 +53,39 @@ namespace SberAcquiringClient.Types.Operations.PaymentSystems.ApplePayRecurrent
             Amount = amount;
         }
 
-        [Display(Name = "Идентификатор заказа в системе магазина")]
+        /// <summary>
+        /// Идентификатор заказа в системе продавца
+        /// </summary>
+        /// <list type="bullet">
+        /// <item>Обязательное поле</item>
+        /// <item>Максимальная длина: 32</item>
+        /// </list>
+        [Display(Name = "Идентификатор заказа в системе продавца")]
         [Required(ErrorMessageResourceType = typeof(ValidationStrings), ErrorMessageResourceName = "RequiredError")]
         [MaxLength(32, ErrorMessageResourceType = typeof(ValidationStrings),
             ErrorMessageResourceName = "StringMaxLengthError")]
         public string OrderNumber { get; }
 
+        /// <summary>
+        /// Идентификатор созданной ранее связки
+        /// </summary>
+        /// <list type="bullet">
+        /// <item>Обязательное поле</item>
+        /// <item>Максимальная длина: 255</item>
+        /// </list>
         [Display(Name = "Идентификатор созданной ранее связки")]
         [Required(ErrorMessageResourceType = typeof(ValidationStrings), ErrorMessageResourceName = "RequiredError")]
         [MaxLength(255, ErrorMessageResourceType = typeof(ValidationStrings),
             ErrorMessageResourceName = "StringMaxLengthError")]
         public string BindingId { get; }
 
+        /// <summary>
+        /// Сумма платежа
+        /// </summary>
+        /// <list type="bullet">
+        /// <item>Обязательное поле</item>
+        /// <item>Должно лежать в диапазоне: 0.01-999999999999999999.99</item>
+        /// </list>
         [Display(Name = "Сумма платежа")]
         [Required(ErrorMessageResourceType = typeof(ValidationStrings), ErrorMessageResourceName = "RequiredError")]
         [Range(0.01, 999999999999999999.99, ErrorMessageResourceType = typeof(ValidationStrings),
@@ -63,6 +93,13 @@ namespace SberAcquiringClient.Types.Operations.PaymentSystems.ApplePayRecurrent
         [JsonConverter(typeof(AmountConverter))]
         public decimal Amount { get; }
 
+        /// <summary>
+        /// Код валюты платежа ISO 4217
+        /// </summary>
+        /// <list type="bullet">
+        /// <item>Должно соответствовать регулярному выражению <see cref="RegexExtensions.PositiveNumberPattern"/></item>
+        /// <item>Максимальная длина: 3</item>
+        /// </list>
         [Display(Name = "Код валюты платежа ISO 4217")]
         [MaxLength(3, ErrorMessageResourceType = typeof(ValidationStrings),
             ErrorMessageResourceName = "StringMaxLengthError")]
@@ -70,6 +107,13 @@ namespace SberAcquiringClient.Types.Operations.PaymentSystems.ApplePayRecurrent
             ErrorMessageResourceName = "StringFormatError")]
         public string Currency { get; set; }
 
+        /// <summary>
+        /// Описание заказа в свободной форме
+        /// </summary>
+        /// <list type="bullet">
+        /// <item>Должно соответствовать регулярному выражению [^%+\r\n]+</item>
+        /// <item>Максимальная длина: 1024</item>
+        /// </list>
         [Display(Name = "Описание заказа в свободной форме")]
         [MaxLength(1024, ErrorMessageResourceType = typeof(ValidationStrings),
             ErrorMessageResourceName = "StringMaxLengthError")]
@@ -77,6 +121,9 @@ namespace SberAcquiringClient.Types.Operations.PaymentSystems.ApplePayRecurrent
             ErrorMessageResourceName = "StringFormatError")]
         public string Description { get; set; }
 
+        /// <summary>
+        /// Дополнительные параметры
+        /// </summary>
         [Display(Name = "Дополнительные параметры")]
         public Dictionary<string, string> AdditionalParameters { get; set; }
     }

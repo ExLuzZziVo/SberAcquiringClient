@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-using SberAcquiringClient.Types.Common;
-
-namespace SberAcquiringClient.Types.Operations.PaymentSystems.GooglePay
+﻿namespace SberAcquiringClient.Types.Operations.PaymentSystems.GooglePay
 {
+    /// <summary>
+    /// Результат оплаты с помощью Google Pay
+    /// </summary>
     public class GooglePayResult : PaymentSystemOperationResult { }
 }

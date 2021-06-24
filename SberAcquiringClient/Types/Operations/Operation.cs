@@ -8,7 +8,6 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
-using CoreLib.CORE.Helpers.ObjectHelpers;
 using CoreLib.CORE.Helpers.StringHelpers;
 using CoreLib.CORE.Resources;
 using CoreLib.CORE.Types;
@@ -22,18 +21,35 @@ namespace SberAcquiringClient.Types.Operations
 {
     public abstract class Operation<T> where T : OperationResult
     {
+        /// <summary>
+        /// Создание запроса к api платежного шлюза
+        /// </summary>
+        /// <param name="apiPath">Абсолютный адрес запроса к api платежного шлюза</param>
         protected Operation(string apiPath)
         {
             ApiPath = apiPath;
         }
 
+        /// <summary>
+        /// Абсолютный адрес запроса к api платежного шлюза
+        /// </summary>
         [JsonIgnore] internal string ApiPath { get; }
 
+        /// <summary>
+        /// Язык в кодировке ISO 639-1
+        /// </summary>
+        /// <list type="bullets">
+        /// <item>Максимальная длина: 2</item>
+        /// </list>
         [Display(Name = "Язык в кодировке ISO 639-1")]
         [MaxLength(2, ErrorMessageResourceType = typeof(ValidationStrings),
             ErrorMessageResourceName = "StringMaxLengthError")]
         public string Language { get; set; }
 
+        /// <summary>
+        /// Проверка текущего запроса
+        /// </summary>
+        /// <returns>Список ошибок</returns>
         protected virtual IEnumerable<ValidationResult> Validate()
         {
             var validationResults = new List<ValidationResult>(32);
@@ -43,6 +59,11 @@ namespace SberAcquiringClient.Types.Operations
             return validationResults;
         }
 
+        /// <summary>
+        /// Асинхронное выполнение текущего запроса
+        /// </summary>
+        /// <param name="apiSettings">Настройки подключения к api платежного шлюза</param>
+        /// <returns>Задача, представляющая асинхронную операцию выполнения текущего запроса к api платежного шлюза</returns>
         public virtual async Task<T> ExecuteAsync(ISberAcquiringApiSettings apiSettings)
         {
             var requestUri = GenerateRequestUri(apiSettings);
@@ -77,6 +98,12 @@ namespace SberAcquiringClient.Types.Operations
             return result;
         }
 
+        /// <summary>
+        /// Асинхронное выполнение текущего запроса при помощи <see cref="HttpClient"/>
+        /// </summary>
+        /// <param name="httpClient">HttpClient</param>
+        /// <param name="apiSettings">Настройки подключения к api платежного шлюза</param>
+        /// <returns>Задача, представляющая асинхронную операцию выполнения текущего запроса к api платежного шлюза</returns>
         public virtual async Task<T> ExecuteAsync(HttpClient httpClient, ISberAcquiringApiSettings apiSettings)
         {
             var requestUri = GenerateRequestUri(apiSettings);
@@ -104,6 +131,11 @@ namespace SberAcquiringClient.Types.Operations
             return result;
         }
 
+        /// <summary>
+        /// Генерирует url-адрес текущего запроса к api платежного шлюза
+        /// </summary>
+        /// <param name="apiSettings">Настройки подключения к api платежного шлюза</param>
+        /// <returns>Url-адрес текущего запроса к api платежного шлюза</returns>
         private Uri GenerateRequestUri(ISberAcquiringApiSettings apiSettings)
         {
             if (apiSettings == null)
@@ -126,7 +158,8 @@ namespace SberAcquiringClient.Types.Operations
             {
                 throw new ExtendedValidationException(validationResults);
             }
-            
+
+            // Возможно, это не так быстро как использование рефлексии, зато удобнее и наглядней
             var jObject = JObject.FromObject(this, JsonSerializer.Create(new JsonSerializerSettings
             {
                 Formatting = Formatting.None,

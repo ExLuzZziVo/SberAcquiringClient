@@ -3,6 +3,9 @@ using Newtonsoft.Json;
 
 namespace SberAcquiringClient.Types.Converters
 {
+    /// <summary>
+    /// Конвертер для денежных величин. Платежный шлюз работает с int
+    /// </summary>
     public class AmountConverter : JsonConverter<decimal?>
     {
         public override void WriteJson(JsonWriter writer, decimal? value, JsonSerializer serializer)

@@ -7,8 +7,16 @@ using CoreLib.CORE.Resources;
 
 namespace SberAcquiringClient.Types.Operations.PaymentSystems.SamsungPayWeb
 {
+    /// <summary>
+    /// Оплата через Samsung Pay, при которой используется платёжная страница на стороне продавца
+    /// </summary>
     public class SamsungPayWebOperation : Operation<SamsungPayWebResult>
     {
+        /// <summary>
+        /// Оплата через Samsung Pay, при которой используется платёжная страница на стороне продавца
+        /// </summary>
+        /// <param name="orderId">Идентификатор заказа в платежной системе</param>
+        /// <param name="failUrl">Адрес, на который требуется перенаправить пользователя в случае неуспешной оплаты</param>
         public SamsungPayWebOperation(Guid orderId, string failUrl) : base("/payment/samsungWeb/payment.do")
         {
             if (failUrl.IsNullOrEmptyOrWhiteSpace() || failUrl.Length > 512 ||
@@ -25,10 +33,24 @@ namespace SberAcquiringClient.Types.Operations.PaymentSystems.SamsungPayWeb
             OnFailedPaymentBackUrl = failUrl;
         }
 
-        [Display(Name = "Номер заказа в платежной системе")]
+        /// <summary>
+        /// Идентификатор заказа в платежной системе
+        /// </summary>
+        /// <list type="bullet">
+        /// <item>Обязательное поле</item>
+        /// </list>
+        [Display(Name = "Идентификатор заказа в платежной системе")]
         [Required(ErrorMessageResourceType = typeof(ValidationStrings), ErrorMessageResourceName = "RequiredError")]
         public Guid Mdorder { get; }
 
+        /// <summary>
+        /// Адрес, на который требуется перенаправить пользователя в случае неуспешной оплаты
+        /// </summary>
+        /// <list type="bullet">
+        /// <item>Обязательное поле</item>
+        /// <item>Должно соответствовать регулярному выражению <see cref="RegexExtensions.UrlPattern"/></item>
+        /// <item>Максимальная длина: 512</item>
+        /// </list>
         [Display(Name = "Адрес, на который требуется перенаправить пользователя в случае неуспешной оплаты")]
         [Required(ErrorMessageResourceType = typeof(ValidationStrings), ErrorMessageResourceName = "RequiredError")]
         [MaxLength(512, ErrorMessageResourceType = typeof(ValidationStrings),
