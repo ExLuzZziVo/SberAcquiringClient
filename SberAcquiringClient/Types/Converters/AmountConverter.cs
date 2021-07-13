@@ -16,7 +16,7 @@ namespace SberAcquiringClient.Types.Converters
             }
             else
             {
-                writer.WriteValue((int) Math.Round(value.Value, 2, MidpointRounding.AwayFromZero) * 100);
+                writer.WriteValue((int) (Math.Round(value.Value, 2, MidpointRounding.AwayFromZero) * 100));
             }
         }
 
