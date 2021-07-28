@@ -31,9 +31,9 @@ public class SberApiSettings: ISberAcquiringApiSettings
 ```csharp
 var apiSettings = new SberApiSettings();
 // Если используете HttpClient через внедрение зависимостей
-var result = new <Операция>.Execute(_httpClient, apiSettings);
+var result = await new <Операция>.ExecuteAsync(_httpClient, apiSettings);
 // Если нет
-var result = new <Операция>.Execute(apiSettings);
+var result = await new <Операция>.ExecuteAsync(apiSettings);
 ```
 
 Все доступные операции находятся в пространстве имен <b>SberAcquiringClient.Types.Operations</b>
