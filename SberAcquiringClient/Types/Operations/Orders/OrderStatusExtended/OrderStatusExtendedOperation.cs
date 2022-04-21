@@ -46,7 +46,7 @@ namespace SberAcquiringClient.Types.Operations.Orders.OrderStatusExtended
         /// <item>Обязательное поле, если <see cref="OrderNumber"/> не указан</item>
         /// </list>
         [Display(Name = "Идентификатор заказа в платежной системе")]
-        [RequiredIfValidation(nameof(OrderNumber), null, ErrorMessageResourceType = typeof(ValidationStrings),
+        [RequiredIf(nameof(OrderNumber), null, ErrorMessageResourceType = typeof(ValidationStrings),
             ErrorMessageResourceName = "RequiredError")]
         public Guid? OrderId { get; }
 
@@ -58,7 +58,7 @@ namespace SberAcquiringClient.Types.Operations.Orders.OrderStatusExtended
         /// <item>Максимальная длина: 32</item>
         /// </list>
         [Display(Name = "Идентификатор заказа в системе продавца")]
-        [RequiredIfValidation(nameof(OrderId), null, ErrorMessageResourceType = typeof(ValidationStrings),
+        [RequiredIf(nameof(OrderId), null, ErrorMessageResourceType = typeof(ValidationStrings),
             ErrorMessageResourceName = "RequiredError")]
         [MaxLength(32, ErrorMessageResourceType = typeof(ValidationStrings),
             ErrorMessageResourceName = "StringMaxLengthError")]

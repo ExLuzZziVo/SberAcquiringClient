@@ -55,7 +55,7 @@ namespace SberAcquiringClient.Types.Operations.CardBindings.GetCardBindingsByPan
         /// <item>Должно лежать в диапазоне: 100000000000-9999999999999999999</item>
         /// </list>
         [Display(Name = "Номер карты")]
-        [RequiredIfValidation(nameof(BindingId), null, ErrorMessageResourceType = typeof(ValidationStrings),
+        [RequiredIf(nameof(BindingId), null, ErrorMessageResourceType = typeof(ValidationStrings),
             ErrorMessageResourceName = "RequiredError")]
         [Range(100000000000, 9999999999999999999, ErrorMessageResourceType = typeof(ValidationStrings),
             ErrorMessageResourceName = "DigitRangeValuesError")]
@@ -69,7 +69,7 @@ namespace SberAcquiringClient.Types.Operations.CardBindings.GetCardBindingsByPan
         /// <item>Максимальная длина: 255</item>
         /// </list>
         [Display(Name = "Идентификатор созданной ранее связки")]
-        [RequiredIfValidation(nameof(Pan), null, ErrorMessageResourceType = typeof(ValidationStrings),
+        [RequiredIf(nameof(Pan), null, ErrorMessageResourceType = typeof(ValidationStrings),
             ErrorMessageResourceName = "RequiredError")]
         [MaxLength(255, ErrorMessageResourceType = typeof(ValidationStrings),
             ErrorMessageResourceName = "StringMaxLengthError")]
