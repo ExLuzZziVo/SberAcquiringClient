@@ -1,3 +1,5 @@
+#region
+
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Cryptography;
@@ -8,6 +10,8 @@ using CoreLib.CORE.Helpers.StringHelpers;
 using Newtonsoft.Json;
 using SberAcquiringClient.Types.Converters;
 using SberAcquiringClient.Types.Enums;
+
+#endregion
 
 namespace SberAcquiringClient.Types.Common
 {
@@ -113,7 +117,7 @@ namespace SberAcquiringClient.Types.Common
         private byte[] GenerateCallbackData()
         {
             return Encoding.UTF8.GetBytes(
-                $"{(Amount == null ? string.Empty : $"amount;{(int) (Math.Round(Amount.Value, 2, MidpointRounding.AwayFromZero) * 100)};")}mdOrder;{MdOrder.Value.ToString("D")};operation;{Operation.Value.ToString().ToLower()};orderNumber;{OrderNumber};status;{Status.Value.ToString("d")};");
+                $"{(Amount == null ? string.Empty : $"amount;{(int)(Math.Round(Amount.Value, 2, MidpointRounding.AwayFromZero) * 100)};")}mdOrder;{MdOrder.Value.ToString("D")};operation;{Operation.Value.ToString().ToLower()};orderNumber;{OrderNumber};status;{Status.Value.ToString("d")};");
         }
     }
 }

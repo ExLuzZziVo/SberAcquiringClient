@@ -1,5 +1,9 @@
+#region
+
 using System.ComponentModel.DataAnnotations;
 using SberAcquiringClient.Types.Common;
+
+#endregion
 
 namespace SberAcquiringClient.Types.Operations.PaymentSystems
 {

@@ -1,9 +1,13 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.ComponentModel.DataAnnotations;
 using CoreLib.CORE.Helpers.ObjectHelpers;
 using CoreLib.CORE.Helpers.StringHelpers;
 using CoreLib.CORE.Resources;
 using SberAcquiringClient.Types.Enums;
+
+#endregion
 
 namespace SberAcquiringClient.Types.Operations.CardBindings.GetCardBindings
 {

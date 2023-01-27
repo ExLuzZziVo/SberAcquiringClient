@@ -1,10 +1,14 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using CoreLib.CORE.Helpers.ObjectHelpers;
 using CoreLib.CORE.Helpers.StringHelpers;
 using CoreLib.CORE.Resources;
 using SberAcquiringClient.Resources;
+
+#endregion
 
 namespace SberAcquiringClient.Types.Operations.GetFiscalReceiptStatus
 {
@@ -72,19 +76,16 @@ namespace SberAcquiringClient.Types.Operations.GetFiscalReceiptStatus
         [Display(Name = "Идентификатор чека в фискализаторе")]
         public Guid? Uuid { get; }
 
-        protected override IEnumerable<ValidationResult> Validate()
+        public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            var validationResults = base.Validate();
-
             if (OrderId == null && OrderNumber.IsNullOrEmptyOrWhiteSpace() && Uuid == null)
             {
-                validationResults = new List<ValidationResult>(validationResults)
-                {
-                    new ValidationResult(ErrorStrings.ResourceManager.GetString("GetFiscalReceiptStatusRequiredError"))
-                };
+                yield return new ValidationResult(
+                    ErrorStrings.ResourceManager.GetString("GetFiscalReceiptStatusRequiredError"), new[]
+                    {
+                        nameof(OrderId), nameof(OrderNumber), nameof(Uuid)
+                    });
             }
-
-            return validationResults;
         }
     }
 }

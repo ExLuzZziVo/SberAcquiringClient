@@ -1,7 +1,9 @@
+#region
+
 using System;
-using System.IO;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,53 +14,13 @@ using Newtonsoft.Json.Serialization;
 using SberAcquiringClient.Resources;
 using SberAcquiringClient.Types.Interfaces;
 
+#endregion
+
 namespace SberAcquiringClient.Types.Operations.PaymentSystems
 {
     public abstract class PaymentSystemOperation<T> : Operation<T> where T : PaymentSystemOperationResult
     {
         protected PaymentSystemOperation(string apiPath) : base(apiPath) { }
-
-        public override async Task<T> ExecuteAsync(ISberAcquiringApiSettings apiSettings)
-        {
-            var jsonData = ValidateAndGenerateJson(apiSettings);
-
-            var request = (HttpWebRequest) WebRequest.Create(apiSettings.ApiHost + ApiPath);
-            request.Method = WebRequestMethods.Http.Post;
-            request.Accept = "application/json";
-            request.ContentType = "application/json";
-            var requestData = Encoding.UTF8.GetBytes(jsonData);
-            request.ContentLength = requestData.Length;
-
-            using (var s = request.GetRequestStream())
-            {
-                await s.WriteAsync(requestData, 0, requestData.Length);
-            }
-
-            string responseResult;
-
-            using (var response = (HttpWebResponse) await request.GetResponseAsync())
-            {
-                using (var sr = new StreamReader(response.GetResponseStream()))
-                {
-                    responseResult = await sr.ReadToEndAsync();
-                }
-
-                if (response.StatusCode != HttpStatusCode.OK)
-                {
-                    throw new InvalidOperationException(string.Format(
-                        ErrorStrings.ResourceManager.GetString("ApiRequestError"), responseResult));
-                }
-            }
-
-            if (responseResult.IsNullOrEmptyOrWhiteSpace())
-            {
-                return null;
-            }
-
-            var result = JsonConvert.DeserializeObject<T>(responseResult);
-
-            return result;
-        }
 
         public override async Task<T> ExecuteAsync(HttpClient httpClient, ISberAcquiringApiSettings apiSettings)
         {
@@ -67,7 +29,7 @@ namespace SberAcquiringClient.Types.Operations.PaymentSystems
             string responseResult;
 
             using (var response = await httpClient.PostAsync(apiSettings.ApiHost + ApiPath,
-                new StringContent(jsonData, Encoding.UTF8, "application/json")))
+                       new StringContent(jsonData, Encoding.UTF8, "application/json")))
             {
                 responseResult = await response.Content.ReadAsStringAsync();
 
@@ -100,16 +62,18 @@ namespace SberAcquiringClient.Types.Operations.PaymentSystems
                 throw new ArgumentNullException(nameof(apiSettings));
             }
 
-            if (apiSettings.Token.IsNullOrEmptyOrWhiteSpace() &&
-                (apiSettings.UserName.IsNullOrEmptyOrWhiteSpace() ||
-                 apiSettings.Password.IsNullOrEmptyOrWhiteSpace()) ||
+            if ((apiSettings.Token.IsNullOrEmptyOrWhiteSpace() &&
+                 (apiSettings.UserName.IsNullOrEmptyOrWhiteSpace() ||
+                  apiSettings.Password.IsNullOrEmptyOrWhiteSpace())) ||
                 apiSettings.ApiHost.IsNullOrEmptyOrWhiteSpace())
             {
                 throw new InvalidOperationException(
                     ErrorStrings.ResourceManager.GetString("NoApiAuthenticationDataError"));
             }
 
-            var validationResults = Validate();
+            var validationResults = new List<ValidationResult>(32);
+
+            Validator.TryValidateObject(this, new ValidationContext(this), validationResults, true);
 
             if (validationResults.Count() != 0)
             {

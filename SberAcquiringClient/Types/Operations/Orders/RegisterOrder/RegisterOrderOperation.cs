@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
@@ -9,6 +11,8 @@ using CoreLib.CORE.Resources;
 using Newtonsoft.Json;
 using SberAcquiringClient.Types.Converters;
 using SberAcquiringClient.Types.Enums;
+
+#endregion
 
 namespace SberAcquiringClient.Types.Operations.Orders.RegisterOrder
 {

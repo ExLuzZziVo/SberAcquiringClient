@@ -1,5 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿#region
+
+using System.ComponentModel.DataAnnotations;
 using SberAcquiringClient.Types.Operations.Orders.OrderStatusExtended;
+
+#endregion
 
 namespace SberAcquiringClient.Types.Operations.PaymentSystems.ApplePay
 {

@@ -1,9 +1,9 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.IO;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,9 +17,11 @@ using Newtonsoft.Json.Serialization;
 using SberAcquiringClient.Resources;
 using SberAcquiringClient.Types.Interfaces;
 
+#endregion
+
 namespace SberAcquiringClient.Types.Operations
 {
-    public abstract class Operation<T> where T : OperationResult
+    public abstract class Operation<T> : IValidatableObject where T : OperationResult
     {
         /// <summary>
         /// Создание запроса к api платежного шлюза
@@ -33,7 +35,8 @@ namespace SberAcquiringClient.Types.Operations
         /// <summary>
         /// Абсолютный адрес запроса к api платежного шлюза
         /// </summary>
-        [JsonIgnore] internal string ApiPath { get; }
+        [JsonIgnore]
+        internal string ApiPath { get; }
 
         /// <summary>
         /// Язык в кодировке ISO 639-1
@@ -46,17 +49,9 @@ namespace SberAcquiringClient.Types.Operations
             ErrorMessageResourceName = "StringMaxLengthError")]
         public string Language { get; set; }
 
-        /// <summary>
-        /// Проверка текущего запроса
-        /// </summary>
-        /// <returns>Список ошибок</returns>
-        protected virtual IEnumerable<ValidationResult> Validate()
+        public virtual IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            var validationResults = new List<ValidationResult>(32);
-
-            Validator.TryValidateObject(this, new ValidationContext(this), validationResults, true);
-
-            return validationResults;
+            yield return ValidationResult.Success;
         }
 
         /// <summary>
@@ -64,38 +59,12 @@ namespace SberAcquiringClient.Types.Operations
         /// </summary>
         /// <param name="apiSettings">Настройки подключения к api платежного шлюза</param>
         /// <returns>Задача, представляющая асинхронную операцию выполнения текущего запроса к api платежного шлюза</returns>
-        public virtual async Task<T> ExecuteAsync(ISberAcquiringApiSettings apiSettings)
+        public async Task<T> ExecuteAsync(ISberAcquiringApiSettings apiSettings)
         {
-            var requestUri = GenerateRequestUri(apiSettings);
-
-            var request = (HttpWebRequest) WebRequest.Create(requestUri);
-            request.Method = WebRequestMethods.Http.Post;
-            request.Accept = "application/json";
-
-            string responseResult;
-
-            using (var response = (HttpWebResponse) await request.GetResponseAsync())
+            using (var httpClient = new HttpClient())
             {
-                using (var sr = new StreamReader(response.GetResponseStream()))
-                {
-                    responseResult = await sr.ReadToEndAsync();
-                }
-
-                if (response.StatusCode != HttpStatusCode.OK)
-                {
-                    throw new InvalidOperationException(string.Format(
-                        ErrorStrings.ResourceManager.GetString("ApiRequestError"), responseResult));
-                }
+                return await ExecuteAsync(httpClient, apiSettings);
             }
-
-            if (responseResult.IsNullOrEmptyOrWhiteSpace())
-            {
-                return null;
-            }
-
-            var result = JsonConvert.DeserializeObject<T>(responseResult);
-
-            return result;
         }
 
         /// <summary>
@@ -143,16 +112,18 @@ namespace SberAcquiringClient.Types.Operations
                 throw new ArgumentNullException(nameof(apiSettings));
             }
 
-            if (apiSettings.Token.IsNullOrEmptyOrWhiteSpace() &&
-                (apiSettings.UserName.IsNullOrEmptyOrWhiteSpace() ||
-                 apiSettings.Password.IsNullOrEmptyOrWhiteSpace()) ||
+            if ((apiSettings.Token.IsNullOrEmptyOrWhiteSpace() &&
+                 (apiSettings.UserName.IsNullOrEmptyOrWhiteSpace() ||
+                  apiSettings.Password.IsNullOrEmptyOrWhiteSpace())) ||
                 apiSettings.ApiHost.IsNullOrEmptyOrWhiteSpace())
             {
                 throw new InvalidOperationException(
                     ErrorStrings.ResourceManager.GetString("NoApiAuthenticationDataError"));
             }
 
-            var validationResults = Validate();
+            var validationResults = new List<ValidationResult>(32);
+
+            Validator.TryValidateObject(this, new ValidationContext(this), validationResults, true);
 
             if (validationResults.Count() != 0)
             {

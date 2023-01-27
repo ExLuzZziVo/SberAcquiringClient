@@ -1,10 +1,14 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using CoreLib.CORE.Helpers.Converters;
 using Newtonsoft.Json;
 using SberAcquiringClient.Types.Common;
 using SberAcquiringClient.Types.Converters;
+
+#endregion
 
 namespace SberAcquiringClient.Types.Operations.Orders.OrderStatus
 {

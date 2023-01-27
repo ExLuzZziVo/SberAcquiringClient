@@ -1,8 +1,12 @@
+#region
+
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Newtonsoft.Json;
+
+#endregion
 
 namespace SberAcquiringClient.Types.Converters
 {
@@ -13,7 +17,7 @@ namespace SberAcquiringClient.Types.Converters
     {
         private readonly char _separator;
         private readonly string _stringFormat;
-        
+
         /// <summary>
         /// Конвертирует последовательность в строку с заданным разделителем
         /// </summary>

@@ -1,5 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿#region
+
+using System.ComponentModel.DataAnnotations;
 using SberAcquiringClient.Types.Enums;
+
+#endregion
 
 namespace SberAcquiringClient.Types.Operations.Verify3DSEnrollment
 {

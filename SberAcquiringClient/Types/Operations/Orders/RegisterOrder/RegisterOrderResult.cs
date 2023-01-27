@@ -1,6 +1,10 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.ComponentModel.DataAnnotations;
 using SberAcquiringClient.Types.Common;
+
+#endregion
 
 namespace SberAcquiringClient.Types.Operations.Orders.RegisterOrder
 {

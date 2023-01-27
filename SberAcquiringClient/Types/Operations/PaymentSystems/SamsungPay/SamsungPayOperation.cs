@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
@@ -7,6 +9,8 @@ using CoreLib.CORE.Helpers.ObjectHelpers;
 using CoreLib.CORE.Helpers.StringHelpers;
 using CoreLib.CORE.Resources;
 using Newtonsoft.Json;
+
+#endregion
 
 namespace SberAcquiringClient.Types.Operations.PaymentSystems.SamsungPay
 {

@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -8,6 +10,8 @@ using CoreLib.CORE.Resources;
 using Newtonsoft.Json;
 using SberAcquiringClient.Types.Converters;
 using SberAcquiringClient.Types.Enums;
+
+#endregion
 
 namespace SberAcquiringClient.Types.Operations.Orders.GetOrderStats
 {
@@ -128,22 +132,15 @@ namespace SberAcquiringClient.Types.Operations.Orders.GetOrderStats
         [Display(Name = "Поиск заказов, дата создания которых попадает в заданный период")]
         public bool? SearchByCreatedDate { get; set; }
 
-        protected override IEnumerable<ValidationResult> Validate()
+        public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            var validationResults = base.Validate();
-
             if (From > To)
             {
-                validationResults = new List<ValidationResult>(validationResults)
-                {
-                    new ValidationResult(string.Format(
-                        ValidationStrings.ResourceManager.GetString("CompareToGreaterThanError"),
-                        GetType().GetProperty(nameof(To)).GetPropertyDisplayName(),
-                        GetType().GetProperty(nameof(From)).GetPropertyDisplayName()))
-                };
+                yield return new ValidationResult(string.Format(
+                    ValidationStrings.ResourceManager.GetString("CompareToGreaterThanError"),
+                    GetType().GetProperty(nameof(To)).GetPropertyDisplayName(),
+                    GetType().GetProperty(nameof(From)).GetPropertyDisplayName()), new[] { nameof(To) });
             }
-
-            return validationResults;
         }
     }
 }

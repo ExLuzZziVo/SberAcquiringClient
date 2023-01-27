@@ -1,7 +1,11 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.ComponentModel.DataAnnotations;
 using CoreLib.CORE.Helpers.Converters;
 using Newtonsoft.Json;
+
+#endregion
 
 namespace SberAcquiringClient.Types.Common
 {

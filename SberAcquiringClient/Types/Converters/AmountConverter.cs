@@ -1,5 +1,9 @@
+#region
+
 using System;
 using Newtonsoft.Json;
+
+#endregion
 
 namespace SberAcquiringClient.Types.Converters
 {
@@ -16,7 +20,7 @@ namespace SberAcquiringClient.Types.Converters
             }
             else
             {
-                writer.WriteValue((int) (Math.Round(value.Value, 2, MidpointRounding.AwayFromZero) * 100));
+                writer.WriteValue((int)(Math.Round(value.Value, 2, MidpointRounding.AwayFromZero) * 100));
             }
         }
 
@@ -24,9 +28,9 @@ namespace SberAcquiringClient.Types.Converters
             bool hasExistingValue,
             JsonSerializer serializer)
         {
-            var value = (long?) reader.Value;
+            var value = (long?)reader.Value;
 
-            return value == null ? null : (decimal?) value / 100;
+            return value == null ? null : (decimal?)value / 100;
         }
     }
 }

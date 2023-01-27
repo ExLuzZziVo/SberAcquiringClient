@@ -1,7 +1,11 @@
+#region
+
 using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
 using SberAcquiringClient.Types.Converters;
 using SberAcquiringClient.Types.Enums;
+
+#endregion
 
 namespace SberAcquiringClient.Types.Common
 {

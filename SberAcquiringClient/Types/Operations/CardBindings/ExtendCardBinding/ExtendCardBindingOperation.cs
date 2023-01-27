@@ -1,10 +1,14 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.ComponentModel.DataAnnotations;
 using CoreLib.CORE.Helpers.Converters;
 using CoreLib.CORE.Helpers.ObjectHelpers;
 using CoreLib.CORE.Helpers.StringHelpers;
 using CoreLib.CORE.Resources;
 using Newtonsoft.Json;
+
+#endregion
 
 namespace SberAcquiringClient.Types.Operations.CardBindings.ExtendCardBinding
 {
