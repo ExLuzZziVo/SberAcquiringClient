@@ -2,8 +2,8 @@
 
 using System.ComponentModel.DataAnnotations;
 using System.Net;
+using System.Text.Json.Serialization;
 using CoreLib.CORE.Helpers.Converters;
-using Newtonsoft.Json;
 
 #endregion
 

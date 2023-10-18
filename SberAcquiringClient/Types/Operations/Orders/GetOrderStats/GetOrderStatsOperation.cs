@@ -7,7 +7,6 @@ using System.Linq;
 using CoreLib.CORE.Helpers.Converters;
 using CoreLib.CORE.Helpers.ObjectHelpers;
 using CoreLib.CORE.Resources;
-using Newtonsoft.Json;
 using SberAcquiringClient.Types.Converters;
 using SberAcquiringClient.Types.Enums;
 
@@ -90,7 +89,7 @@ namespace SberAcquiringClient.Types.Operations.Orders.GetOrderStats
         /// <item>Обязательное поле</item>
         /// </list>
         [Display(Name = "Дата и время начала периода для выборки")]
-        [JsonConverter(typeof(CustomDateTimeConverter), "yyyyMMddHHmmss")]
+        [CustomDateTimeConverter("yyyyMMddHHmmss")]
         [Required(ErrorMessageResourceType = typeof(ValidationStrings), ErrorMessageResourceName = "RequiredError")]
         public DateTime From { get; }
 
@@ -101,7 +100,7 @@ namespace SberAcquiringClient.Types.Operations.Orders.GetOrderStats
         /// <item>Обязательное поле</item>
         /// </list>
         [Display(Name = "Дата и время окончания периода для выборки")]
-        [JsonConverter(typeof(CustomDateTimeConverter), "yyyyMMddHHmmss")]
+        [CustomDateTimeConverter("yyyyMMddHHmmss")]
         [Required(ErrorMessageResourceType = typeof(ValidationStrings), ErrorMessageResourceName = "RequiredError")]
         public DateTime To { get; }
 
@@ -116,14 +115,14 @@ namespace SberAcquiringClient.Types.Operations.Orders.GetOrderStats
         [Required(ErrorMessageResourceType = typeof(ValidationStrings), ErrorMessageResourceName = "RequiredError")]
         [MinLength(1, ErrorMessageResourceType = typeof(ValidationStrings),
             ErrorMessageResourceName = "CollectionMinLengthError")]
-        [JsonConverter(typeof(CollectionToStringWithSeparatorConverter<TransactionState>), ',', "")]
+        [JsonParameterizedConverter(typeof(CollectionToStringWithSeparatorConverter<TransactionState>), ',', "")]
         public ISet<TransactionState> TransactionStates { get; }
 
         /// <summary>
         /// Список логинов продавцов для выборки
         /// </summary>
         [Display(Name = "Список логинов продавцов для выборки")]
-        [JsonConverter(typeof(CollectionToStringWithSeparatorConverter<string>), ',')]
+        [JsonParameterizedConverter(typeof(CollectionToStringWithSeparatorConverter<string>), ',')]
         public ISet<string> Merchants { get; } = new HashSet<string>();
 
         /// <summary>

@@ -6,11 +6,11 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using CoreLib.CORE.Helpers.StringHelpers;
 using CoreLib.CORE.Types;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using SberAcquiringClient.Resources;
 using SberAcquiringClient.Types.Interfaces;
 
@@ -20,6 +20,13 @@ namespace SberAcquiringClient.Types.Operations.PaymentSystems
 {
     public abstract class PaymentSystemOperation<T> : Operation<T> where T : PaymentSystemOperationResult
     {
+        protected new static readonly JsonSerializerOptions OperationJsonSerializerOptions = new JsonSerializerOptions
+        {
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+            WriteIndented = true,
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        };
+
         protected PaymentSystemOperation(string apiPath) : base(apiPath) { }
 
         public override async Task<T> ExecuteAsync(HttpClient httpClient, ISberAcquiringApiSettings apiSettings)
@@ -45,7 +52,7 @@ namespace SberAcquiringClient.Types.Operations.PaymentSystems
                 return null;
             }
 
-            var result = JsonConvert.DeserializeObject<T>(responseResult);
+            var result = JsonSerializer.Deserialize<T>(responseResult, OperationResultJsonSerializerOptions);
 
             return result;
         }
@@ -80,14 +87,7 @@ namespace SberAcquiringClient.Types.Operations.PaymentSystems
                 throw new ExtendedValidationException(validationResults);
             }
 
-            var jsonData = JsonConvert.SerializeObject(this,
-                Formatting.Indented,
-                new JsonSerializerSettings
-                {
-                    NullValueHandling = NullValueHandling.Ignore,
-                    TypeNameHandling = TypeNameHandling.None,
-                    ContractResolver = new CamelCasePropertyNamesContractResolver()
-                });
+            var jsonData = JsonSerializer.Serialize(this, GetType(), OperationJsonSerializerOptions);
 
             return jsonData;
         }

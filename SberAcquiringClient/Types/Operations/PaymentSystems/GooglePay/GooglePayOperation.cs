@@ -4,12 +4,12 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using CoreLib.CORE.Helpers.Converters;
 using CoreLib.CORE.Helpers.ObjectHelpers;
 using CoreLib.CORE.Helpers.StringHelpers;
 using CoreLib.CORE.Resources;
-using Newtonsoft.Json;
 using SberAcquiringClient.Types.Converters;
 
 #endregion

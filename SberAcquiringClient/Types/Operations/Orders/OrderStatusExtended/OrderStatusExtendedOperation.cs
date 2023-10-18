@@ -29,7 +29,7 @@ namespace SberAcquiringClient.Types.Operations.Orders.OrderStatusExtended
         /// Получение расширенного статуса заказа по его идентификатору в системе продавца
         /// </summary>
         /// <param name="orderNumber">Идентификатор заказа в системе продавца</param>
-        public OrderStatusExtendedOperation(string orderNumber) : base("getOrderStatusExtended.do")
+        public OrderStatusExtendedOperation(string orderNumber) : base("/payment/rest/getOrderStatusExtended.do")
         {
             if (orderNumber.IsNullOrEmptyOrWhiteSpace() || orderNumber.Length > 32)
             {

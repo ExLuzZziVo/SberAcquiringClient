@@ -3,8 +3,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 #endregion
 
@@ -15,51 +15,83 @@ namespace SberAcquiringClient.Types.Converters
     /// </summary>
     public class NameValueDictionaryConverter : JsonConverter<IDictionary<string, string>>
     {
-        public override void WriteJson(JsonWriter writer, IDictionary<string, string> value, JsonSerializer serializer)
+        public override void Write(Utf8JsonWriter writer, IDictionary<string, string> value,
+            JsonSerializerOptions options)
         {
             if (value == null)
             {
-                writer.WriteNull();
+                writer.WriteNullValue();
             }
             else
             {
-                writer.WriteValue(value.Select(kv => new
+                writer.WriteStartArray();
+
+                foreach (var o in value.Select(kv => new ArrayItem
+                         {
+                             Name = kv.Key,
+                             Value = kv.Value
+                         }).ToArray())
                 {
-                    name = kv.Key,
-                    value = kv.Value
-                }).ToArray());
+                    JsonSerializer.Serialize(writer, o, options);
+                }
+
+                writer.WriteEndArray();
             }
         }
 
-        public override IDictionary<string, string> ReadJson(JsonReader reader, Type objectType,
-            IDictionary<string, string> existingValue, bool hasExistingValue,
-            JsonSerializer serializer)
+        public override IDictionary<string, string> Read(ref Utf8JsonReader reader, Type typeToConvert,
+            JsonSerializerOptions options)
         {
-            if (reader.TokenType == JsonToken.Null)
+            if (reader.TokenType == JsonTokenType.Null)
             {
                 return null;
             }
 
-            if (reader.TokenType == JsonToken.StartArray)
+            if (reader.TokenType == JsonTokenType.StartArray)
             {
                 var dictionary = new Dictionary<string, string>();
 
-                var array = JArray.Load(reader);
-
-                foreach (var item in array.Children())
+                while (reader.Read())
                 {
-                    if (item["name"] == null || item["value"] == null)
+                    if (reader.TokenType == JsonTokenType.EndArray)
                     {
-                        throw new NotSupportedException();
+                        break;
                     }
 
-                    dictionary.Add(item["name"].ToString(), item["value"].ToString());
+                    var o = JsonSerializer.Deserialize<ArrayItem>(ref reader, options);
+
+                    dictionary.Add(o.Name, o.Value);
                 }
 
                 return dictionary;
             }
 
-            throw new NotSupportedException();
+            throw new JsonException($"The array object was expected");
+        }
+
+        public override bool CanConvert(Type typeToConvert)
+        {
+            if (typeToConvert.IsInterface && typeToConvert.GetGenericTypeDefinition() == typeof(IDictionary<,>))
+            {
+                return typeToConvert.GetGenericArguments().All(gt => gt == typeof(string));
+            }
+
+            foreach (var i in typeToConvert.GetInterfaces())
+            {
+                if (i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IDictionary<,>))
+                {
+                    return i.GetGenericArguments().All(gt => gt == typeof(string));
+                }
+            }
+
+            return false;
+        }
+
+        public class ArrayItem
+        {
+            [JsonPropertyName("name")] public string Name { get; set; }
+
+            [JsonPropertyName("value")] public string Value { get; set; }
         }
     }
 }

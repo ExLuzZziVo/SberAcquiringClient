@@ -3,8 +3,8 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 using CoreLib.CORE.Resources;
-using Newtonsoft.Json;
 using SberAcquiringClient.Types.Converters;
 
 #endregion

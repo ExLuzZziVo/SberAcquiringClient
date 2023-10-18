@@ -3,7 +3,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using CoreLib.CORE.Helpers.Converters;
-using Newtonsoft.Json;
 
 #endregion
 
@@ -27,7 +26,7 @@ namespace SberAcquiringClient.Types.Common
         /// Дата и время авторизации
         /// </summary>
         [Display(Name = "Дата и время авторизации")]
-        [JsonConverter(typeof(UnixTimestampConverter), true)]
+        [UnixTimestampConverter(true)]
         public DateTime? AuthDateTime { get; set; }
 
         /// <summary>

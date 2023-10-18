@@ -3,12 +3,12 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using CoreLib.CORE.Helpers.Converters;
 using CoreLib.CORE.Helpers.ObjectHelpers;
 using CoreLib.CORE.Helpers.StringHelpers;
 using CoreLib.CORE.Resources;
-using Newtonsoft.Json;
 using SberAcquiringClient.Types.Converters;
 using SberAcquiringClient.Types.Enums;
 
@@ -215,7 +215,7 @@ namespace SberAcquiringClient.Types.Operations.Orders.RegisterOrder
         /// Дата и время окончания жизни заказа
         /// </summary>
         [Display(Name = "Дата и время окончания жизни заказа")]
-        [JsonConverter(typeof(CustomDateTimeConverter), "yyyy-MM-ddTHH:mm:ss")]
+        [CustomDateTimeConverter("yyyy-MM-ddTHH:mm:ss")]
         public DateTime? ExpirationDate { get; set; }
 
         /// <summary>

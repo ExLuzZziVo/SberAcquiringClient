@@ -2,8 +2,8 @@
 
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 using CoreLib.CORE.Helpers.Converters;
-using Newtonsoft.Json;
 using SberAcquiringClient.Types.Converters;
 using SberAcquiringClient.Types.Enums;
 
@@ -41,7 +41,7 @@ namespace SberAcquiringClient.Types.Common
         /// Дата и время чека в фискальном накопителе
         /// </summary>
         [Display(Name = "Дата и время чека в фискальном накопителе")]
-        [JsonConverter(typeof(UnixTimestampConverter), true)]
+        [UnixTimestampConverter(true)]
         public DateTime? Receipt_DateTime { get; set; }
 
         /// <summary>

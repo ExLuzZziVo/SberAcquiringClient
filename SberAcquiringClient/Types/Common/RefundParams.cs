@@ -2,8 +2,8 @@
 
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 using CoreLib.CORE.Helpers.Converters;
-using Newtonsoft.Json;
 using SberAcquiringClient.Types.Converters;
 using SberAcquiringClient.Types.Enums;
 
@@ -36,7 +36,7 @@ namespace SberAcquiringClient.Types.Common
         /// Дата регистрации заказа
         /// </summary>
         [Display(Name = "Дата регистрации заказа")]
-        [JsonConverter(typeof(UnixTimestampConverter), true)]
+        [UnixTimestampConverter(true)]
         public DateTime? Date { get; set; }
     }
 }

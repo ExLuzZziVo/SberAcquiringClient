@@ -4,8 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
+using System.Text.Json.Serialization;
 using CoreLib.CORE.Helpers.Converters;
-using Newtonsoft.Json;
 using SberAcquiringClient.Types.Common;
 using SberAcquiringClient.Types.Converters;
 using SberAcquiringClient.Types.Enums;
@@ -60,7 +60,7 @@ namespace SberAcquiringClient.Types.Operations.Orders.OrderStatusExtended
         /// Дата регистрации заказа
         /// </summary>
         [Display(Name = "Дата регистрации заказа")]
-        [JsonConverter(typeof(UnixTimestampConverter), true)]
+        [UnixTimestampConverter(true)]
         public DateTime? Date { get; set; }
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace SberAcquiringClient.Types.Operations.Orders.OrderStatusExtended
         /// Дата и время возврата средств
         /// </summary>
         [Display(Name = "Дата и время возврата средств")]
-        [JsonConverter(typeof(UnixTimestampConverter), true)]
+        [UnixTimestampConverter(true)]
         public DateTime? RefundedDate { get; set; }
 
         /// <summary>
@@ -125,7 +125,7 @@ namespace SberAcquiringClient.Types.Operations.Orders.OrderStatusExtended
         /// Дата и время авторизации
         /// </summary>
         [Display(Name = "Дата и время авторизации")]
-        [JsonConverter(typeof(UnixTimestampConverter), true)]
+        [UnixTimestampConverter(true)]
         public DateTime? AuthDateTime { get; set; }
 
         /// <summary>

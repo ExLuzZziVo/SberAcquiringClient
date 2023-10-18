@@ -4,7 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using Newtonsoft.Json;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 #endregion
 
@@ -39,11 +40,11 @@ namespace SberAcquiringClient.Types.Converters
             _stringFormat = stringFormat ?? string.Empty;
         }
 
-        public override void WriteJson(JsonWriter writer, IEnumerable<T> value, JsonSerializer serializer)
+        public override void Write(Utf8JsonWriter writer, IEnumerable<T> value, JsonSerializerOptions options)
         {
             if (value == null)
             {
-                writer.WriteNull();
+                writer.WriteNullValue();
             }
             else
             {
@@ -59,34 +60,32 @@ namespace SberAcquiringClient.Types.Converters
                     stringValues = value.Select(v => v.ToString()).ToArray();
                 }
 
-                writer.WriteValue(string.Join(_separator.ToString(), stringValues));
+                writer.WriteStringValue(string.Join(_separator.ToString(), stringValues));
             }
         }
 
-        public override IEnumerable<T> ReadJson(JsonReader reader, Type objectType, IEnumerable<T> existingValue,
-            bool hasExistingValue,
-            JsonSerializer serializer)
+        public override IEnumerable<T> Read(ref Utf8JsonReader reader, Type typeToConvert,
+            JsonSerializerOptions options)
         {
-            /* var value = reader.Value?.ToString();
-            
-            if (value == null)
-            {
-                return null;
-            }
-
-            // objectType can be interface
-            var result = (IEnumerable<T>) Activator.CreateInstance(objectType);
-            
-            if (!value.IsNullOrEmptyOrWhiteSpace())
-            {
-                var values = value.Split(_separator).Cast<T>().ToArray();
-
-                result.AppendRange(values);
-            }
-
-            return result; */
-
             throw new NotSupportedException();
+        }
+
+        public override bool CanConvert(Type typeToConvert)
+        {
+            if (typeToConvert.IsInterface && typeToConvert.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+            {
+                return true;
+            }
+
+            foreach (var i in typeToConvert.GetInterfaces())
+            {
+                if (i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

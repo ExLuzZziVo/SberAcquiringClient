@@ -1,7 +1,7 @@
 #region
 
 using System.ComponentModel.DataAnnotations;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using SberAcquiringClient.Types.Converters;
 using SberAcquiringClient.Types.Enums;
 

@@ -3,7 +3,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using CoreLib.CORE.Helpers.Converters;
-using Newtonsoft.Json;
 using SberAcquiringClient.Types.Enums;
 
 #endregion
@@ -23,7 +22,7 @@ namespace SberAcquiringClient.Types.Common
         /// Срок истечения действия карты
         /// </summary>
         [Display(Name = "Срок истечения действия карты")]
-        [JsonConverter(typeof(CustomDateTimeConverter), "yyyyMM")]
+        [CustomDateTimeConverter("yyyyMM")]
         public DateTime? Expiration { get; set; }
 
         /// <summary>

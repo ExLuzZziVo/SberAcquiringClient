@@ -3,8 +3,8 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
+using System.Text.Json.Serialization;
 using CoreLib.CORE.Helpers.Converters;
-using Newtonsoft.Json;
 using SberAcquiringClient.Types.Common;
 using SberAcquiringClient.Types.Converters;
 
@@ -39,7 +39,7 @@ namespace SberAcquiringClient.Types.Operations.Orders.OrderStatus
         /// Срок истечения действия карты
         /// </summary>
         [Display(Name = "Срок истечения действия карты")]
-        [JsonConverter(typeof(CustomDateTimeConverter), "yyyyMM")]
+        [CustomDateTimeConverter("yyyyMM")]
         public DateTime? Expiration { get; set; }
 
         /// <summary>

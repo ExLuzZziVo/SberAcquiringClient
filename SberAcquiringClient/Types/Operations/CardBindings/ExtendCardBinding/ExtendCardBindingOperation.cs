@@ -6,7 +6,6 @@ using CoreLib.CORE.Helpers.Converters;
 using CoreLib.CORE.Helpers.ObjectHelpers;
 using CoreLib.CORE.Helpers.StringHelpers;
 using CoreLib.CORE.Resources;
-using Newtonsoft.Json;
 
 #endregion
 
@@ -69,7 +68,7 @@ namespace SberAcquiringClient.Types.Operations.CardBindings.ExtendCardBinding
         /// </list>
         [Display(Name = "Новая дата окончания срока действия карты")]
         [Required(ErrorMessageResourceType = typeof(ValidationStrings), ErrorMessageResourceName = "RequiredError")]
-        [JsonConverter(typeof(CustomDateTimeConverter), "yyyyMM")]
+        [CustomDateTimeConverter("yyyyMM")]
         public DateTime NewExpiry { get; }
     }
 }

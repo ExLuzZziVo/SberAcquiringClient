@@ -6,14 +6,14 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Web;
 using CoreLib.CORE.Helpers.StringHelpers;
 using CoreLib.CORE.Resources;
 using CoreLib.CORE.Types;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Serialization;
 using SberAcquiringClient.Resources;
 using SberAcquiringClient.Types.Interfaces;
 
@@ -23,6 +23,16 @@ namespace SberAcquiringClient.Types.Operations
 {
     public abstract class Operation<T> : IValidatableObject where T : OperationResult
     {
+        protected static readonly JsonSerializerOptions OperationJsonSerializerOptions = new JsonSerializerOptions
+        {
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+            WriteIndented = false,
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        };
+
+        protected static readonly JsonSerializerOptions OperationResultJsonSerializerOptions =
+            new JsonSerializerOptions(JsonSerializerDefaults.Web);
+
         /// <summary>
         /// Создание запроса к api платежного шлюза
         /// </summary>
@@ -95,7 +105,7 @@ namespace SberAcquiringClient.Types.Operations
                 return null;
             }
 
-            var result = JsonConvert.DeserializeObject<T>(responseResult);
+            var result = JsonSerializer.Deserialize<T>(responseResult, OperationResultJsonSerializerOptions);
 
             return result;
         }
@@ -130,15 +140,6 @@ namespace SberAcquiringClient.Types.Operations
                 throw new ExtendedValidationException(validationResults);
             }
 
-            // Возможно, это не так быстро как использование рефлексии, зато удобнее и наглядней
-            var jObject = JObject.FromObject(this, JsonSerializer.Create(new JsonSerializerSettings
-            {
-                Formatting = Formatting.None,
-                NullValueHandling = NullValueHandling.Ignore,
-                TypeNameHandling = TypeNameHandling.None,
-                ContractResolver = new CamelCasePropertyNamesContractResolver()
-            }));
-
             var builder = new UriBuilder(apiSettings.ApiHost + ApiPath);
 
             var query = HttpUtility.ParseQueryString(string.Empty, Encoding.UTF8);
@@ -153,10 +154,17 @@ namespace SberAcquiringClient.Types.Operations
                 query["token"] = apiSettings.Token;
             }
 
-            foreach (var jp in jObject.Children().Cast<JProperty>().ToArray())
+            // Возможно, это не так быстро как использование рефлексии, зато удобнее и наглядней
+            var serializedOperation = JsonSerializer.Serialize(this, GetType(), OperationJsonSerializerOptions);
+
+            var jObject = JsonNode.Parse(serializedOperation).AsObject();
+
+            foreach (var jp in jObject)
             {
-                query[jp.Name] = jp.Value.ToString().Replace("\r\n", string.Empty);
+                query[jp.Key] = jp.Value.ToString().Replace("\r\n", string.Empty);
             }
+
+            //
 
             builder.Query = query.ToString();
 
