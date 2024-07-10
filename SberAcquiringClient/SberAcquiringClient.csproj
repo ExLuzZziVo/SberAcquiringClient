@@ -5,7 +5,7 @@
         <AssemblyName>SberAcquiringClient</AssemblyName>
         <RootNamespace>SberAcquiringClient</RootNamespace>
         <PackageId>SberAcquiringClient</PackageId>
-        <VersionPrefix>1.0.1</VersionPrefix>
+        <VersionPrefix>1.0.2</VersionPrefix>
         <Authors>Khatin S.A.</Authors>
         <Description>Библиотека для работы с REST API интернет-эквайринга ПАО «Сбербанк»</Description>
         <PackageProjectUrl>https://github.com/ExLuzZziVo/SberAcquiringClient</PackageProjectUrl>
@@ -24,7 +24,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="System.Text.Json" Version="8.0.2"/>
+        <PackageReference Include="System.Text.Json" Version="8.0.4"/>
         <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0"/>
     </ItemGroup>
 
